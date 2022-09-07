@@ -3,6 +3,7 @@ import './App.css'
 import tmdb from "./tmdb";
 import MovieRow from "./components/MovieRow";
 import FeatureMovie from './components/FeatureMovie'
+import Header from "./components/Header";
 
 function App(){
 
@@ -25,14 +26,15 @@ function App(){
 
     loadAll();
   }, []);
-
-  {featureData && 
-    <FeatureMovie item={featureData}/>
-  }
-
   return(
     <div className="page">
       
+    <Header />
+
+      {featureData && 
+        <FeatureMovie item={featureData}/>
+      }
+
       <section className="lists">
         {movieList.map((item, key) => {
          return (
