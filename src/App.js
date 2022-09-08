@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './App.css'
 import tmdb from "./tmdb";
-import MovieRow from "./components/MovieRow";
+import MovieRow from './components/MovieRow';
 import FeatureMovie from './components/FeatureMovie'
 import Header from "./components/Header";
 
@@ -9,6 +9,7 @@ function App(){
 
   const [movieList, setMovieList] = useState([]);
   const [featureData, setFeatureData] = useState(null)
+  const [blackHeader, setBlackHeader] = useState(false)
 
   useEffect(() => {
     // Pegando a lista de filmes
@@ -26,10 +27,27 @@ function App(){
 
     loadAll();
   }, []);
+
+  useEffect(() => {
+    const scrollListener = () => {
+      if(window.scrollY > 10) {
+        setBlackHeader(true)
+      }else {
+        setBlackHeader(false)
+      }
+    }
+
+    window.addEventListener('scroll', scrollListener);
+
+    return () => {
+      window.removeEventListener('scroll', scrollListener);
+    }
+  }, []);
+
   return(
     <div className="page">
       
-    <Header />
+    <Header black={blackHeader}/>
 
       {featureData && 
         <FeatureMovie item={featureData}/>
@@ -42,6 +60,12 @@ function App(){
          )
         })}
       </section>
+
+      <footer>
+        Made with love by André Ferrari <br/>
+        Direitos de imagem para Netflix <br/>
+        Dados pegos no site TheMovieDb
+      </footer>
     </div>
   );
 }
